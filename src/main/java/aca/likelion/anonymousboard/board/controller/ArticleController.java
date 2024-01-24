@@ -1,11 +1,15 @@
 package aca.likelion.anonymousboard.board.controller;
 
 import aca.likelion.anonymousboard.board.dto.ArticleDto;
+import aca.likelion.anonymousboard.board.dto.CommentDto;
 import aca.likelion.anonymousboard.board.service.ArticleService;
+import aca.likelion.anonymousboard.board.service.CommentService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final CommentService commentService;
 
     @GetMapping("/post")
     public String postArticle(
@@ -36,6 +41,18 @@ public class ArticleController {
     ) {
         final ArticleDto article = articleService.postArticle(title, content, password, boardId);
         model.addAttribute("article", article);
+        return "redirect:/articles/" + article.getId();
+    }
+
+    @GetMapping("/{articleId}")
+    public String articlePage(
+            @PathVariable(name = "articleId") Long articleId,
+            Model model
+    ) {
+        final ArticleDto article =  articleService.getArticle(articleId);
+        final List<CommentDto> comments = commentService.getByArticleId(articleId);
+        model.addAttribute("article", article);
+        model.addAttribute("comments", comments);
         return "article";
     }
 }

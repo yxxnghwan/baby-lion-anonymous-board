@@ -30,4 +30,11 @@ public class ArticleService {
 
         return ArticleDto.from(savedArticle);
     }
+
+    public ArticleDto getArticle(final Long articleId) {
+        final Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new NoSuchElementException("게시글이 존재하지 않습니다 articleId = " + articleId));
+
+        return ArticleDto.from(article);
+    }
 }

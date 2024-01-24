@@ -8,5 +8,9 @@
     <div th:each="board : ${boards}">
         <a th:href="@{'/boards/'+${board.id}}">[[${board.type}]]</a>
     </div>
+    <br>
+    <div th:each="article : ${articles}">
+        <a th:href="@{'/articles/'+${article.id}}">[[${article.title}]]</a>
+    </div>
 </body>
 </html>

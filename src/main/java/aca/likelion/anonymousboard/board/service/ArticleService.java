@@ -5,6 +5,7 @@ import aca.likelion.anonymousboard.board.domain.Board;
 import aca.likelion.anonymousboard.board.dto.ArticleDto;
 import aca.likelion.anonymousboard.board.repository.ArticleRepository;
 import aca.likelion.anonymousboard.board.repository.BoardRepository;
+import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,13 @@ public class ArticleService {
                 .orElseThrow(() -> new NoSuchElementException("게시글이 존재하지 않습니다 articleId = " + articleId));
 
         return ArticleDto.from(article);
+    }
+
+    public List<ArticleDto> getAllArticles() {
+        final List<Article> articles = articleRepository.findAll();
+
+        return articles.stream()
+                .map(ArticleDto::from)
+                .toList();
     }
 }

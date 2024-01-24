@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<form action="/articles" method="post">
+    <div>
+        <label for="title-input">Title</label>
+        <input type="text" name="title" id="title-input">
+    </div>
+    <div>
+        <label for="content-area">Content</label>
+        <textarea name="content" id="content-area"></textarea>
+    </div>
+    <div>
+        <label for="password-input">Password</label>
+        <input type="password" name="password" id="password-input">
+    </div>
+
+    <input type="hidden" name="boardId" id="boardId-input" th:value="${boardId}">
+
+    <input type="submit" value="Write">
+</form>
+</html>

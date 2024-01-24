@@ -5,6 +5,7 @@ import aca.likelion.anonymousboard.board.dto.BoardDto;
 import aca.likelion.anonymousboard.board.repository.BoardRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,12 @@ public class BoardService {
         return boards.stream()
                 .map(BoardDto::from)
                 .toList();
+    }
+
+    public BoardDto getBoard(final Long boardId) {
+        final Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new NoSuchElementException("게시판이 존재하지 않습니다. boardId = " + boardId));
+
+        return BoardDto.from(board);
     }
 }

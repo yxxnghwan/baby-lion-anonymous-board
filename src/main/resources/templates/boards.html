@@ -6,7 +6,7 @@
 </head>
 <body>
     <div th:each="board : ${boards}">
-        <div>[[${board.getType()}]]</div>
+        <a th:href="@{'/boards/'+${board.id}}">[[${board.type}]]</a>
     </div>
 </body>
 </html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>해시태그 검색</title>
+</head>
+<body>
+    <h1>[[${hashtag}]]</h1>
+
+    <div th:each="article : ${articles}">
+        <a th:href="@{'/articles/'+${article.id}}">[[${article.title}]]</a>
+    </div>
+</body>
+</html>

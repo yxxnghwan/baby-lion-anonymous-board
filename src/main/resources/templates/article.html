@@ -18,7 +18,7 @@
 
     <h5>해시 태그</h5>
     <div th:each="hashtag : ${hashtags}">
-        <a th:href="@{'/hashtags/'+${hashtag.id}}">[[${hashtag.content}]]</a>
+        <a th:href="@{/hashtags/search(hashtag=${hashtag.content})}">[[${hashtag.content}]]</a>
     </div>
 
     <h5>댓글 달기</h5>

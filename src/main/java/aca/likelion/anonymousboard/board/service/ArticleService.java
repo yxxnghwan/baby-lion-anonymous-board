@@ -7,6 +7,7 @@ import aca.likelion.anonymousboard.board.repository.ArticleRepository;
 import aca.likelion.anonymousboard.board.repository.BoardRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,26 @@ public class ArticleService {
         return articles.stream()
                 .map(ArticleDto::from)
                 .toList();
+    }
+
+    public ArticleDto deleteArticle(final Long articleId, final String password) {
+        final Article article = articleRepository.findById(articleId)
+                .orElseThrow(() -> new NoSuchElementException("삭제할 게시글이 존재하지 않습니다."));
+
+        if (!article.match(password)) {
+            throw new IllegalStateException("패스워드가 일치하지 않습니다.");
+        }
+
+        articleRepository.deleteById(articleId);
+
+        return ArticleDto.from(article);
+    }
+
+    public List<ArticleDto> getArticlesByBoardId(final Long boardId) {
+        List<Article> articles = articleRepository.findByBoardId(boardId);
+
+        return articles.stream()
+                .map(ArticleDto::from)
+                .collect(Collectors.toList());
     }
 }

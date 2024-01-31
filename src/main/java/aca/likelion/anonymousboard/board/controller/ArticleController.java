@@ -55,4 +55,14 @@ public class ArticleController {
         model.addAttribute("comments", comments);
         return "article";
     }
+
+    @PostMapping("/delete/{articleId}")
+    public String deleteArticle(
+            @PathVariable(name = "articleId") Long articleId,
+            @RequestParam("password") String password
+    ) {
+        final ArticleDto deletedArticle = articleService.deleteArticle(articleId, password);
+
+        return "redirect:/boards/" + deletedArticle.getBoardId();
+    }
 }

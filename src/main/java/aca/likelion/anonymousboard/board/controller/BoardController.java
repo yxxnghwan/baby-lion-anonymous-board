@@ -36,7 +36,9 @@ public class BoardController {
             Model model
     ) {
         final BoardDto board = boardService.getBoard(id);
+        final List<ArticleDto> articles = articleService.getArticlesByBoardId(id);
         model.addAttribute("board", board);
+        model.addAttribute("articles", articles);
         return "boarddetail";
     }
 }

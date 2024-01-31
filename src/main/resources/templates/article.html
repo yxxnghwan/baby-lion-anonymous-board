@@ -9,6 +9,12 @@
 
     <div th:text="${article.content}"></div>
 
+    <form th:action="@{'/articles/delete/' + ${article.id}}" method="post">
+        <label>
+            비밀번호 : <input type="password" name="password">
+        </label>
+        <input type="submit" value="게시글삭제">
+    </form>
 
     <h5>댓글 달기</h5>
     <form action="/comments" method="post">

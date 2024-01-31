@@ -35,4 +35,8 @@ public class Article {
         this.password = password;
         this.board = board;
     }
+
+    public boolean match(final String password) {
+        return this.password.equals(password);
+    }
 }

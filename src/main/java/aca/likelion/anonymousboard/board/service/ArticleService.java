@@ -2,9 +2,12 @@ package aca.likelion.anonymousboard.board.service;
 
 import aca.likelion.anonymousboard.board.domain.Article;
 import aca.likelion.anonymousboard.board.domain.Board;
+import aca.likelion.anonymousboard.board.domain.HashTag;
 import aca.likelion.anonymousboard.board.dto.ArticleDto;
 import aca.likelion.anonymousboard.board.repository.ArticleRepository;
 import aca.likelion.anonymousboard.board.repository.BoardRepository;
+import aca.likelion.anonymousboard.board.repository.HashTagRepository;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -17,6 +20,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
+    private final HashTagRepository hashTagRepository;
 
     public ArticleDto postArticle(
             String title,
@@ -29,6 +33,16 @@ public class ArticleService {
 
         final Article article = new Article(title, content, password, board);
         final Article savedArticle = articleRepository.save(article);
+
+        final List<String> hashTagContents = Arrays.stream(content.split("\\s+"))
+                .filter(word -> word.startsWith("#") && word.length() > 1)
+                .collect(Collectors.toList());
+
+        final List<HashTag> hashTags = hashTagContents.stream()
+                .map(it -> new HashTag(it, savedArticle.getId()))
+                .collect(Collectors.toList());
+
+        hashTagRepository.saveAll(hashTags);
 
         return ArticleDto.from(savedArticle);
     }

@@ -2,8 +2,10 @@ package aca.likelion.anonymousboard.board.controller;
 
 import aca.likelion.anonymousboard.board.dto.ArticleDto;
 import aca.likelion.anonymousboard.board.dto.CommentDto;
+import aca.likelion.anonymousboard.board.dto.HashTagDto;
 import aca.likelion.anonymousboard.board.service.ArticleService;
 import aca.likelion.anonymousboard.board.service.CommentService;
+import aca.likelion.anonymousboard.board.service.HashTagService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final CommentService commentService;
+    private final HashTagService hashTagService;
 
     @GetMapping("/post")
     public String postArticle(
@@ -51,8 +54,10 @@ public class ArticleController {
     ) {
         final ArticleDto article =  articleService.getArticle(articleId);
         final List<CommentDto> comments = commentService.getByArticleId(articleId);
+        final List<HashTagDto> hashTags = hashTagService.getHashTagsByArticleId(articleId);
         model.addAttribute("article", article);
         model.addAttribute("comments", comments);
+        model.addAttribute("hashtags", hashTags);
         return "article";
     }
 

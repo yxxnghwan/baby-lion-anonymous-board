@@ -82,4 +82,12 @@ public class ArticleService {
                 .map(ArticleDto::from)
                 .collect(Collectors.toList());
     }
+
+    public List<ArticleDto> search(final String searchText) {
+        final List<Article> articles = articleRepository.search("%" + searchText + "%");
+
+        return articles.stream()
+                .map(ArticleDto::from)
+                .collect(Collectors.toList());
+    }
 }

@@ -12,5 +12,10 @@
     <div th:each="article : ${articles}">
         <a th:href="@{'/articles/'+${article.id}}">[[${article.title}]]</a>
     </div>
+
+    <form method="get" action="/articles/search">
+        <input type="text" name="searchText">
+        <input type="submit" value="검색">
+    </form>
 </body>
 </html>

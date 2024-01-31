@@ -70,4 +70,17 @@ public class ArticleController {
 
         return "redirect:/boards/" + deletedArticle.getBoardId();
     }
+
+    @GetMapping("/search")
+    public String searchArticle(
+            @RequestParam("searchText") String searchText,
+            Model model
+    ) {
+        final List<ArticleDto> articles = articleService.search(searchText);
+
+        model.addAttribute("articles", articles);
+        model.addAttribute("searchText", searchText);
+
+        return "articlesearch";
+    }
 }

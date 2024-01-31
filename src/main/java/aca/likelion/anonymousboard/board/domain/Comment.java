@@ -30,4 +30,8 @@ public class Comment {
         this.password = password;
         this.articleId = articleId;
     }
+
+    public boolean match(final String password) {
+        return this.password.equals(password);
+    }
 }

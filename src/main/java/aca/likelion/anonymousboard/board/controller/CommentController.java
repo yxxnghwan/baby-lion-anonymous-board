@@ -5,6 +5,7 @@ import aca.likelion.anonymousboard.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,5 +26,14 @@ public class CommentController {
     ) {
         final CommentDto comment = commentService.writeComment(content, password, articleId);
         return "redirect:/articles/" + comment.getArticleId();
+    }
+
+    @PostMapping("/delete/{commentId}")
+    public String deleteComment(
+            @PathVariable(name = "commentId") Long commentId,
+            @RequestParam("password") String password
+    ) {
+        final CommentDto deletedComment = commentService.deleteComment(commentId, password);
+        return "redirect:/articles/" + deletedComment.getArticleId();
     }
 }

@@ -4,6 +4,7 @@ import aca.likelion.anonymousboard.board.domain.Comment;
 import aca.likelion.anonymousboard.board.dto.CommentDto;
 import aca.likelion.anonymousboard.board.repository.CommentRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,18 @@ public class CommentService {
         return comments.stream()
                 .map(CommentDto::from)
                 .toList();
+    }
+
+    public CommentDto deleteComment(final Long commentId, final String password) {
+        final Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new NoSuchElementException("삭제할 댓글이 존재하지 않습니다."));
+
+        if (!comment.match(password)) {
+            throw new IllegalStateException("패스워드가 일치하지 않습니다.");
+        }
+
+        commentRepository.deleteById(comment.getId());
+
+        return CommentDto.from(comment);
     }
 }

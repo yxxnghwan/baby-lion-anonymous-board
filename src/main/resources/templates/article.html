@@ -26,7 +26,13 @@
     </form>
 
     <div th:each="comment : ${comments}">
-        <div th:text="${comment.content}"></div>
+        <form th:action="@{'/comments/delete/' + ${comment.id}}" method="post">
+            <div th:text="${comment.content}"></div>
+            <label>
+                비밀번호 : <input type="password" name="password">
+            </label>
+            <input type="submit" value="댓글삭제">
+        </form>
     </div>
 
 </body>
